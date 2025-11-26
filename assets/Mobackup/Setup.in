@@ -1,0 +1,54 @@
+; Installationsinfodatei MOBackup
+;
+
+[InstallInfo]
+Version=9.61
+ApplicationName=MOBackup - Datensicherung für Outlook (Vollversion)
+Comment=Outlook Backup Software
+Publisher=Heiko Schröder
+Website=http://www.mobackup.de
+
+DefaultTargetFolder=MOBackup
+DefaultUnistallFileName=uninstall.exe
+AppExeName=mobackup.exe
+HelpFile=hilfe.chm
+UninstallName=MOBackup - Datensicherung für Outlook
+IconFile=mobackup.ex_
+
+[ProgFiles]
+f0=mobackup.ex_
+f1=extreg.exe
+f2=ReadMe.txt
+f3=hilfe.chm
+f4=EdgeSync.exe
+f5=EdgeSync.exe.config
+f6=Esent.Interop.dll
+f7=fullmob.key
+f8=bfulizenz.exe
+f9=Updater.exe
+
+[DefaultDelFiles]
+f0=File_id.diz
+
+[Options]
+LicenceFile=licence.txt
+UpdateRegKey=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\mobackup.exe;Path
+
+[UninstallRegKeys]
+k0=HKCU\Software\Heiko Schroeder Software\mobackup;
+k1=HKCR\.mobackup;
+k2=HKCR\MOBackup;
+k3=HKCR\Outlook Sicherung;
+k4=HKCR\.mot;
+k5=HKCR\mot_auto_file;
+
+[AddLink]
+DesktopLink=mobackup.exe,MOBackup
+StartMenuLink=
+ProgramGroup=MOBackup - Datensicherung für Outlook
+
+[ProgramGroupLink]
+link1=mobackup.exe,MOBackup
+link2=readMe.txt,Wichtige Informationen!
+link3=hilfe.chm,MOBackup Hilfedatei
+link4=UNINSTALL,Software deinstallieren

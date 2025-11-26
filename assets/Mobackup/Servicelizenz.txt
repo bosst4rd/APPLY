@@ -1,0 +1,39 @@
+-----------------------------------------------------------------------------
+                 MOBACKUP - Datensicherung für Outlook
+
+         Software zum Sichern von E-Mail-Daten und Einstellungen in
+      Outlook 2000, Outlook XP, Outlook 2003, Outlook 2007, Outlook 2010,
+         Outlook 2013, Outlook 2016, Outlook 2019 und Outlook 2021
+               
+-----------------------------------------------------------------------------
+
+Die von Ihnen erworbene Servicelizenz ermöglicht Ihnen die Nutzung der Software
+vom USB-Stick.
+
+Entpacken Sie dazu einfach alle in der Zip-Datei befindlichen Dateien in einen
+beliebigen Ordner auf dem USB-Datenträger.
+
+Die Software starten Sie dann mit einem Doppelklick auf die Datei mobackup.exe
+
+
+KONTAKT ZUM ENTWICKLER
+======================
+
+Dipl.-Ing. (FH) Heiko Schröder
+Heiko Schröder Softwareentwicklung
+Gletschersteinstraße 31
+04299 Leipzig
+
+E-Mail: support@mobackup.de
+
+Telefon: 0341 / 8 79 85 86 (Mo-Fr: 09:00-18:00 Uhr)
+Mobil:   0177 / 8 51 66 64 (für Notfälle)
+Telefax: 0321 / 21 25 07 93
+
+www.mobackup.de
+www.outlookbackup.de
+Forum: www.schroeder-leipzig.de/forum/
+
+
+------------
+30.11.2021

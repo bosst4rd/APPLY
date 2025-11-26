@@ -1,0 +1,49 @@
+
+Lizenzbestimmungen für die Nutzung und Weitergabe der Software
+****************************************************
+
+1. Die von Ihnen erworbene Software "MOBackup - Datensicherung für
+Outlook 2000-2021" ist eine Vollversion mit vollem Funktionsumfang.
+
+2. Die Software und Ihre Dokumentation wird "wie sie ist" und ohne jede
+Gewährleistung für Funktion, Korrektheit oder Fehlerfreiheit zur
+Verfügung gestellt. Für jedweden direkten oder indirekten Schaden -
+insbesondere Schaden an anderer Software, Schaden an Hardware, Schaden
+durch Nutzungsausfall und Schaden durch Funktionsuntüchtigkeit der
+Software (auch wenn diese dem Autor bekannt sein sollte), kann der
+Autor nicht haftbar gemacht werden. Ausschließlich der Benutzer haftet
+für die Folgen der Nutzung dieser Software.
+
+3. Es wird keine Gewähr für 100%ige Fehlerfreiheit und dem damit eventuell
+verbundenen Informationsverlust übernommen.
+
+4. Die Decompilierung, Disassemblierung oder Änderung der Software oder der
+Dokumentation ist untersagt. Das Kopieren oder die Weitergabe der
+mitgelieferten Dokumentation, egal auf welchem Weg, ist nicht gestattet.
+
+5. Alle in diesem Text, der Dokumentation und der Software verwendeten
+Produktnamen und eingetragenen Warenzeichen werden hiermit als Eigentum
+ihrer Besitzer anerkannt, unabhängig davon, ob sie als solche
+gekennzeichnet sind oder nicht.
+
+6. Die registrierte Version darf nicht weitergegeben werden.
+
+7. Das erworbene Nutzungsrecht (Freischaltcode) an der Software
+gilt für alle zukünftigen Updates. Die Erlangung des Updates obliegt dem
+Nutzer der Software. Auch in künftigen Versionen ist der Nutzer der
+Software an diesem Lizenzvertrag gebunden.
+
+8. Sie dürfen die Software weder vermieten noch verleihen, noch dürfen
+Sie die Nutzungsrechte der Lizenz auf einen anderen übertragen.
+
+9. Es gilt das Recht der Bundesrepublik Deutschland.
+
+
+Sollte eine der Bestimmungen, dieser Lizenzbestimmungen, unwirksam sein,
+so wird davon die Wirksamkeit der übrigen Bestimmungen nicht berührt.
+Anstelle der unwirksamen Bestimmungen gelten solche wirksamen Bestimmungen
+als vereinbart, die in ihrem Sinn der Absicht der unwirksamen Bestimmungen
+zugunsten des Autors am nächsten kommen.
+
+
+Leipzig, Oktober 2021
