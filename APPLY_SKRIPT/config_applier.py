@@ -45,7 +45,9 @@ class ConfigApplier:
             return
 
         try:
-            backup_file = self.backup_dir / f"registry_{key_path.replace('\\', '_').replace(':', '')}.reg"
+            # Fix f-string backslash issue by doing replacements outside f-string
+            safe_path = key_path.replace('\\', '_').replace(':', '')
+            backup_file = self.backup_dir / f"registry_{safe_path}.reg"
             # Export registry key
             subprocess.run(
                 ['reg', 'export', key_path, str(backup_file), '/y'],
