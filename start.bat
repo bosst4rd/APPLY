@@ -1,6 +1,6 @@
 @echo off
 REM ###########################################################################
-REM APPLY - Configuration Migration Tool - Start Script (Windows)
+REM APPLY - Start Script (Windows)
 REM
 REM Dieses Skript prueft alle Abhaengigkeiten und installiert fehlende
 REM ###########################################################################
@@ -10,7 +10,7 @@ cd /d "%~dp0"
 
 echo.
 echo ===============================================================
-echo   APPLY - Configuration Migration Tool
+echo   APPLY
 echo   Startup Check
 echo ===============================================================
 echo.
@@ -189,7 +189,7 @@ echo   Verzeichnis: %CD%
 echo   Hostname:    %COMPUTERNAME%
 echo.
 echo ---------------------------------------------------------------
-echo   Starte APPLY...
+echo   Starte eXpletus APPLY...
 echo ---------------------------------------------------------------
 echo.
 

@@ -1,163 +1,157 @@
 """
-COLLECT Configuration Migration Tool - GUI
-Enhanced with checkbox selection and ALBIS-Registry support
+APPLY - Configuration Migration Tool
+eXpletus Design mit CustomTkinter
 """
-import tkinter as tk
-from tkinter import ttk, filedialog, messagebox, scrolledtext
+import customtkinter as ctk
+from tkinter import filedialog, messagebox
 import threading
+import json
+import subprocess
+import platform
+from pathlib import Path
 from typing import Dict, List, Any
 from collect_parser import CollectParser
 from config_applier import ConfigApplier
+from expletus_style import *
 
 
-class MigrationToolGUI:
-    """Main GUI application for the migration tool"""
+class ApplyGUI(ctk.CTk):
+    """APPLY GUI mit eXpletus Design"""
 
-    def __init__(self, root):
-        """Initialize the GUI application"""
-        self.root = root
-        self.root.title("APPLY - Configuration Migration Tool")
-        self.root.geometry("1000x750")
+    def __init__(self):
+        super().__init__()
+
+        # Theme initialisieren
+        init_theme()
+
+        # Window konfigurieren
+        self.title("eXpletus APPLY")
+        self.geometry("800x600")
+        self.resizable(False, False)
 
         # Data
         self.parser = None
         self.applier = None
         self.selected_configs = {}
-        self.checkboxes = {}  # Store checkbox variables
+        self.checkboxes = {}
+        self.is_running = False
 
-        # Create GUI elements
-        self.create_widgets()
+        # Create GUI
+        self.create_gui()
 
-    def create_widgets(self):
-        """Create all GUI widgets"""
-        # Main container with padding
-        main_frame = ttk.Frame(self.root, padding="10")
-        main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
-        self.root.columnconfigure(0, weight=1)
-        self.root.rowconfigure(0, weight=1)
+    def create_gui(self):
+        """Erstelle GUI-Elemente"""
 
-        # Title
-        title_label = ttk.Label(
-            main_frame,
-            text="APPLY - Configuration Migration Tool",
-            font=("Arial", 16, "bold")
-        )
-        title_label.grid(row=0, column=0, columnspan=2, pady=(0, 20))
+        # Header mit Logo
+        create_header(self, "eXpletus APPLY", "v2.2")
 
-        # File selection frame
-        file_frame = ttk.LabelFrame(main_frame, text="1. COLLECT Datei auswählen", padding="10")
-        file_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 10))
+        # Main content area
+        content = ctk.CTkFrame(self, fg_color="transparent")
+        content.pack(fill="both", expand=True, padx=10, pady=(0, 10))
 
-        self.file_path_var = tk.StringVar()
-        file_entry = ttk.Entry(file_frame, textvariable=self.file_path_var, width=60)
-        file_entry.grid(row=0, column=0, padx=(0, 10))
+        # 1. File selection
+        file_frame = ctk.CTkFrame(content)
+        file_frame.pack(fill="x", pady=(0, 10))
 
-        browse_btn = ttk.Button(file_frame, text="Durchsuchen...", command=self.browse_file)
-        browse_btn.grid(row=0, column=1, padx=(0, 10))
+        ctk.CTkLabel(file_frame, text="COLLECT Datei:", font=Fonts.SUBTITLE).pack(anchor="w", padx=10, pady=(10, 5))
 
-        load_btn = ttk.Button(file_frame, text="Laden", command=self.load_file)
-        load_btn.grid(row=0, column=2)
+        file_inner = ctk.CTkFrame(file_frame, fg_color="transparent")
+        file_inner.pack(fill="x", padx=10, pady=(0, 10))
 
-        # Configuration selection frame with canvas for scrolling
-        config_frame = ttk.LabelFrame(
-            main_frame,
-            text="2. Konfigurationen zum Wiederherstellen auswählen",
-            padding="10"
-        )
-        config_frame.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
-        config_frame.columnconfigure(0, weight=1)
-        config_frame.rowconfigure(0, weight=1)
+        self.file_entry = ctk.CTkEntry(file_inner, height=Sizes.ENTRY_HEIGHT, placeholder_text="Bitte JSON-Datei auswählen...")
+        self.file_entry.pack(side="left", fill="x", expand=True, padx=(0, 10))
 
-        # Canvas with scrollbar for checkboxes
-        canvas_frame = ttk.Frame(config_frame)
-        canvas_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
-        canvas_frame.columnconfigure(0, weight=1)
-        canvas_frame.rowconfigure(0, weight=1)
+        self.browse_btn = ctk.CTkButton(file_inner, text="Durchsuchen", command=self.browse_file,
+                                        height=Sizes.BUTTON_SMALL, width=100, font=Fonts.BUTTON)
+        self.browse_btn.pack(side="left", padx=(0, 5))
 
-        self.canvas = tk.Canvas(canvas_frame, height=300)
-        scrollbar = ttk.Scrollbar(canvas_frame, orient="vertical", command=self.canvas.yview)
-        self.scrollable_frame = ttk.Frame(self.canvas)
+        self.load_btn = ctk.CTkButton(file_inner, text="Laden", command=self.load_file,
+                                      height=Sizes.BUTTON_SMALL, width=80, font=Fonts.BUTTON,
+                                      fg_color=Colors.GREEN, hover_color=Colors.GREEN_HOVER)
+        self.load_btn.pack(side="left")
 
-        self.scrollable_frame.bind(
-            "<Configure>",
-            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-        )
+        # 2. Configuration selection (scrollable)
+        config_frame = ctk.CTkFrame(content)
+        config_frame.pack(fill="both", expand=True, pady=(0, 10))
 
-        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
-        self.canvas.configure(yscrollcommand=scrollbar.set)
+        ctk.CTkLabel(config_frame, text="Konfigurationen auswählen:", font=Fonts.SUBTITLE).pack(anchor="w", padx=10, pady=(10, 5))
 
-        self.canvas.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
-        scrollbar.grid(row=0, column=1, sticky=(tk.N, tk.S))
+        # Scrollable frame for checkboxes
+        self.scroll_frame = ctk.CTkScrollableFrame(config_frame, height=250)
+        self.scroll_frame.pack(fill="both", expand=True, padx=10, pady=(0, 10))
 
-        # Buttons for selection
-        btn_frame = ttk.Frame(config_frame)
-        btn_frame.grid(row=1, column=0, pady=(10, 0))
+        # Button row for select all/none
+        btn_row = ctk.CTkFrame(config_frame, fg_color="transparent")
+        btn_row.pack(fill="x", padx=10, pady=(0, 10))
 
-        select_all_btn = ttk.Button(btn_frame, text="Alle auswählen", command=self.select_all)
-        select_all_btn.grid(row=0, column=0, padx=5)
+        ctk.CTkButton(btn_row, text="Alle auswählen", command=self.select_all,
+                     height=Sizes.BUTTON_SMALL, font=Fonts.SMALL, width=100).pack(side="left", padx=(0, 5))
+        ctk.CTkButton(btn_row, text="Alle abwählen", command=self.deselect_all,
+                     height=Sizes.BUTTON_SMALL, font=Fonts.SMALL, width=100).pack(side="left")
 
-        deselect_all_btn = ttk.Button(btn_frame, text="Alle abwählen", command=self.deselect_all)
-        deselect_all_btn.grid(row=0, column=1, padx=5)
+        # 3. Options
+        options_frame = ctk.CTkFrame(content)
+        options_frame.pack(fill="x", pady=(0, 10))
 
-        # Options frame
-        options_frame = ttk.LabelFrame(main_frame, text="3. Optionen", padding="10")
-        options_frame.grid(row=3, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 10))
+        opt_inner = ctk.CTkFrame(options_frame, fg_color="transparent")
+        opt_inner.pack(fill="x", padx=10, pady=10)
 
-        self.dry_run_var = tk.BooleanVar(value=True)
-        dry_run_check = ttk.Checkbutton(
-            options_frame,
-            text="Dry Run (nur simulieren, nichts ändern)",
-            variable=self.dry_run_var
-        )
-        dry_run_check.grid(row=0, column=0)
+        self.dry_run_var = ctk.BooleanVar(value=True)
+        self.dry_run_check = ctk.CTkCheckBox(opt_inner, text="Dry Run (nur simulieren, nichts ändern)",
+                                             variable=self.dry_run_var, font=Fonts.NORMAL)
+        self.dry_run_check.pack(side="left")
 
-        # Apply button
-        apply_frame = ttk.Frame(main_frame)
-        apply_frame.grid(row=4, column=0, columnspan=2, pady=(0, 10))
+        self.backup_var = ctk.BooleanVar(value=True)
+        self.backup_check = ctk.CTkCheckBox(opt_inner, text="Backup vor Änderungen erstellen",
+                                            variable=self.backup_var, font=Fonts.NORMAL)
+        self.backup_check.pack(side="left", padx=(20, 0))
 
-        self.apply_btn = ttk.Button(
-            apply_frame,
-            text="Konfigurationen anwenden",
-            command=self.apply_configurations,
-            state="disabled"
-        )
-        self.apply_btn.grid(row=0, column=0)
+        # 4. Progress bar
+        self.progress_bar = create_progress_bar(content, width=780)
+        self.progress_bar.pack(fill="x", pady=(0, 5))
 
-        # Progress bar
-        self.progress_var = tk.DoubleVar()
-        self.progress_bar = ttk.Progressbar(
-            main_frame,
-            variable=self.progress_var,
-            maximum=100
-        )
-        self.progress_bar.grid(row=5, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 10))
+        self.status_label = ctk.CTkLabel(content, text="Bereit", font=Fonts.STATUS, text_color=Colors.MUTED)
+        self.status_label.pack(fill="x", pady=(0, 10))
 
-        # Log frame
-        log_frame = ttk.LabelFrame(main_frame, text="Log", padding="10")
-        log_frame.grid(row=6, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S))
-        log_frame.columnconfigure(0, weight=1)
-        log_frame.rowconfigure(0, weight=1)
+        # 5. Log output
+        self.log_box = create_log_textbox(content, height=100)
+        self.log_box.pack(fill="both", expand=True)
+        self.log_box.configure(state="disabled")
 
-        self.log_text = scrolledtext.ScrolledText(log_frame, height=10, width=80)
-        self.log_text.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        # Bottom button row
+        btn_frame = create_button_row(self)
 
-        # Configure grid weights
-        main_frame.columnconfigure(0, weight=1)
-        main_frame.rowconfigure(2, weight=1)
-        main_frame.rowconfigure(6, weight=1)
+        self.start_btn = create_start_button(btn_frame, self.start_apply, "▶ ANWENDEN")
+        self.start_btn.pack(side="left", fill="x", expand=True, padx=(0, 5))
+        self.start_btn.configure(state="disabled")
+
+        self.stop_btn = create_stop_button(btn_frame, self.stop_apply)
+        self.stop_btn.pack(side="left", fill="x", expand=True, padx=(0, 5))
+
+        # MoBackup button (hidden by default)
+        self.mobackup_btn = ctk.CTkButton(btn_frame, text="📧 MoBackup starten",
+                                          command=self.start_mobackup,
+                                          height=Sizes.BUTTON_HEIGHT, font=Fonts.BUTTON,
+                                          fg_color="#ff8800", hover_color="#dd7700")
+        self.mobackup_btn.pack(side="left", fill="x", expand=True, padx=(0, 5))
+        self.mobackup_btn.pack_forget()  # Hide initially
+
+        exit_btn = create_exit_button(btn_frame, self.quit_app)
+        exit_btn.pack(side="right")
 
     def browse_file(self):
-        """Open file browser to select COLLECT file"""
+        """Datei-Browser öffnen"""
         filename = filedialog.askopenfilename(
             title="COLLECT Datei auswählen",
             filetypes=(("JSON Dateien", "*.json"), ("Alle Dateien", "*.*"))
         )
         if filename:
-            self.file_path_var.set(filename)
+            self.file_entry.delete(0, "end")
+            self.file_entry.insert(0, filename)
 
     def load_file(self):
-        """Load and parse the selected COLLECT file"""
-        file_path = self.file_path_var.get()
+        """COLLECT Datei laden"""
+        file_path = self.file_entry.get()
         if not file_path:
             messagebox.showerror("Fehler", "Bitte wählen Sie eine Datei aus")
             return
@@ -167,20 +161,20 @@ class MigrationToolGUI:
         try:
             self.parser = CollectParser(file_path)
             if self.parser.load():
-                self.log("Datei erfolgreich geladen")
-                self.populate_tree()
-                self.apply_btn.config(state="normal")
+                self.log("✓ Datei erfolgreich geladen")
+                self.populate_configs()
+                self.start_btn.configure(state="normal")
             else:
                 messagebox.showerror("Fehler", "Fehler beim Laden der Datei")
-                self.log("Fehler beim Laden der Datei")
+                self.log("✗ Fehler beim Laden der Datei")
         except Exception as e:
-            messagebox.showerror("Fehler", f"Fehler beim Laden der Datei: {str(e)}")
-            self.log(f"Fehler: {str(e)}")
+            messagebox.showerror("Fehler", f"Fehler beim Laden: {str(e)}")
+            self.log(f"✗ Fehler: {str(e)}")
 
-    def populate_tree(self):
-        """Populate the scrollable frame with checkboxes for configurations"""
-        # Clear existing widgets
-        for widget in self.scrollable_frame.winfo_children():
+    def populate_configs(self):
+        """Konfigurationen in der Liste anzeigen"""
+        # Clear existing
+        for widget in self.scroll_frame.winfo_children():
             widget.destroy()
 
         self.checkboxes = {}
@@ -189,152 +183,124 @@ class MigrationToolGUI:
         if not self.parser:
             return
 
-        row = 0
-
-        # Add system info (read-only, no checkbox)
+        # System info (read-only)
         system_info = self.parser.get_system_info()
         if system_info:
-            info_label = ttk.Label(
-                self.scrollable_frame,
-                text="📋 System-Information (von Quelle):",
-                font=("Arial", 11, "bold"),
-                foreground="blue"
-            )
-            info_label.grid(row=row, column=0, columnspan=3, sticky=tk.W, pady=(5, 5))
-            row += 1
+            info_label = ctk.CTkLabel(self.scroll_frame, text="📋 System-Information:",
+                                     font=Fonts.SUBTITLE, anchor="w")
+            info_label.grid(row=0, column=0, columnspan=2, sticky="w", pady=(5, 5))
 
+            row = 1
             for key, value in system_info.items():
-                info_text = ttk.Label(
-                    self.scrollable_frame,
-                    text=f"  • {key}: {value}",
-                    foreground="gray"
-                )
-                info_text.grid(row=row, column=0, columnspan=3, sticky=tk.W, padx=(20, 0))
+                label = ctk.CTkLabel(self.scroll_frame, text=f"  • {key}: {value}",
+                                    font=Fonts.SMALL, text_color=Colors.MUTED, anchor="w")
+                label.grid(row=row, column=0, columnspan=2, sticky="w", padx=(20, 0))
                 row += 1
 
             # Separator
-            ttk.Separator(self.scrollable_frame, orient='horizontal').grid(
-                row=row, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=10
-            )
+            sep = ctk.CTkFrame(self.scroll_frame, height=2, fg_color=Colors.GRAY)
+            sep.grid(row=row, column=0, columnspan=2, sticky="ew", pady=10)
             row += 1
+        else:
+            row = 0
 
-        # Add configurations with checkboxes
+        # Categories mit Checkboxes
         categories = self.parser.get_categories()
 
-        # Define category display order and icons
         category_info = {
             'hostname': ('🖥️', 'Hostname'),
-            'network': ('🌐', 'Netzwerk'),
-            'albis_registry': ('📝', 'ALBIS-Registry'),
-            'users': ('👤', 'Benutzernamen'),
-            'packages': ('📦', 'Installierte Software'),
-            'services': ('⚙️', 'Dienste'),
-            'files': ('📁', 'Dateien')
+            'username': ('👤', 'Benutzername'),
+            'domain': ('🏢', 'Domäne'),
+            'workgroup': ('👥', 'Arbeitsgruppe'),
+            'network': ('🌐', 'Netzwerk (IPv4)'),
+            'routes': ('🛣️', 'Ständige Routen'),
+            'network_drives': ('💾', 'Netzlaufwerke'),
+            'default_browser': ('🌍', 'Standard-Browser'),
+            'default_pdf': ('📄', 'Standard-PDF-Anwendung'),
+            'default_mail': ('📧', 'Standard-Mailprogramm'),
+            'default_word': ('📝', 'Standard für Word-Dokumente'),
+            'browser_favorites': ('⭐', 'Browser-Favoriten'),
+            'mobackup': ('💼', 'MoBackup (Outlook-Backup)')
         }
 
         for category in categories:
             icon, display_name = category_info.get(category, ('•', category.capitalize()))
 
             # Category header
-            category_label = ttk.Label(
-                self.scrollable_frame,
-                text=f"{icon} {display_name}:",
-                font=("Arial", 10, "bold")
-            )
-            category_label.grid(row=row, column=0, columnspan=3, sticky=tk.W, pady=(10, 5))
+            header = ctk.CTkLabel(self.scroll_frame, text=f"{icon} {display_name}:",
+                                 font=Fonts.SUBTITLE, anchor="w")
+            header.grid(row=row, column=0, columnspan=2, sticky="w", pady=(10, 5))
             row += 1
 
             items = self.parser.get_category_items(category)
 
-            # Handle different data structures
             if isinstance(items, dict):
                 for item_key, item_value in items.items():
-                    var = tk.BooleanVar(value=True)
+                    var = ctk.BooleanVar(value=True)
                     config_key = f"{category}.{item_key}"
                     self.checkboxes[config_key] = var
                     self.selected_configs[config_key] = var
 
-                    # Get description
+                    # Description
                     if isinstance(item_value, dict):
                         desc = item_value.get('description', '')
-                        # For packages, show if installable
-                        if category == 'packages':
-                            pkg_list = item_value.get('packages', [])
-                            if isinstance(pkg_list, list):
-                                desc = f"{len(pkg_list)} Pakete"
                     else:
                         desc = str(item_value)[:60]
 
                     # Checkbox
-                    cb = ttk.Checkbutton(
-                        self.scrollable_frame,
-                        text=f"{item_key}",
-                        variable=var
-                    )
-                    cb.grid(row=row, column=0, sticky=tk.W, padx=(20, 10))
+                    cb = ctk.CTkCheckBox(self.scroll_frame, text=f"{item_key}",
+                                        variable=var, font=Fonts.NORMAL)
+                    cb.grid(row=row, column=0, sticky="w", padx=(20, 10))
 
-                    # Description
-                    desc_label = ttk.Label(
-                        self.scrollable_frame,
-                        text=desc,
-                        foreground="gray"
-                    )
-                    desc_label.grid(row=row, column=1, sticky=tk.W, padx=(0, 10))
-
-                    # Action label for packages
-                    if category == 'packages' and isinstance(item_value, dict):
-                        action_label = ttk.Label(
-                            self.scrollable_frame,
-                            text="→ zur Installation vormerken",
-                            foreground="green",
-                            font=("Arial", 8)
-                        )
-                        action_label.grid(row=row, column=2, sticky=tk.W)
-
+                    # Description label
+                    desc_label = ctk.CTkLabel(self.scroll_frame, text=desc,
+                                             font=Fonts.SMALL, text_color=Colors.MUTED, anchor="w")
+                    desc_label.grid(row=row, column=1, sticky="w")
                     row += 1
+
             elif isinstance(items, str):
-                # Single value like hostname
-                var = tk.BooleanVar(value=True)
+                var = ctk.BooleanVar(value=True)
                 config_key = f"{category}.value"
                 self.checkboxes[config_key] = var
                 self.selected_configs[config_key] = var
 
-                cb = ttk.Checkbutton(
-                    self.scrollable_frame,
-                    text=f"Wiederherstellen: {items}",
-                    variable=var
-                )
-                cb.grid(row=row, column=0, columnspan=2, sticky=tk.W, padx=(20, 10))
+                cb = ctk.CTkCheckBox(self.scroll_frame, text=f"Wiederherstellen: {items}",
+                                    variable=var, font=Fonts.NORMAL)
+                cb.grid(row=row, column=0, columnspan=2, sticky="w", padx=(20, 10))
                 row += 1
 
         self.log(f"✓ {len(categories)} Kategorien mit {len(self.checkboxes)} Elementen geladen")
 
+        # Check if MoBackup category exists
+        if 'mobackup' in categories or any('outlook' in cat.lower() for cat in categories):
+            self.mobackup_btn.pack(side="left", fill="x", expand=True, padx=(0, 5))
+            self.log("💼 MoBackup verfügbar - Button aktiviert")
+
     def select_all(self):
-        """Select all configurations"""
+        """Alle auswählen"""
         for var in self.checkboxes.values():
             var.set(True)
         self.log("✓ Alle Konfigurationen ausgewählt")
 
     def deselect_all(self):
-        """Deselect all configurations"""
+        """Alle abwählen"""
         for var in self.checkboxes.values():
             var.set(False)
         self.log("○ Alle Konfigurationen abgewählt")
 
-    def apply_configurations(self):
-        """Apply selected configurations"""
+    def start_apply(self):
+        """Konfigurationen anwenden"""
         if not self.parser:
             messagebox.showerror("Fehler", "Keine Daten geladen")
             return
 
-        # Confirm action
         dry_run = self.dry_run_var.get()
         mode = "Dry Run (Simulation)" if dry_run else "ECHTE ÄNDERUNGEN"
 
         if not dry_run:
             response = messagebox.askyesno(
                 "Bestätigung",
-                "WARNUNG: Dies wird echte Änderungen am System vornehmen!\n\n"
+                "⚠️ WARNUNG: Dies wird echte Änderungen am System vornehmen!\n\n"
                 "Möchten Sie fortfahren?"
             )
             if not response:
@@ -344,33 +310,46 @@ class MigrationToolGUI:
         self.log(f"Starte Migration im Modus: {mode}")
         self.log(f"{'='*60}\n")
 
-        # Disable apply button during operation
-        self.apply_btn.config(state="disabled")
-        self.progress_var.set(0)
+        # UI anpassen
+        self.is_running = True
+        self.start_btn.configure(state="disabled")
+        self.stop_btn.configure(state="normal")
+        self.progress_bar.set(0)
+        self.status_label.configure(text="Migration läuft...", text_color=Colors.SUCCESS)
 
-        # Run in thread to keep GUI responsive
-        thread = threading.Thread(target=self._apply_configurations_thread, args=(dry_run,))
+        # Thread starten
+        thread = threading.Thread(target=self._apply_thread, args=(dry_run,))
+        thread.daemon = True
         thread.start()
 
-    def _apply_configurations_thread(self, dry_run: bool):
-        """Apply configurations in a separate thread"""
+    def _apply_thread(self, dry_run: bool):
+        """Apply-Thread"""
         try:
-            self.applier = ConfigApplier(dry_run=dry_run)
+            self.applier = ConfigApplier(dry_run=dry_run, create_backup=self.backup_var.get())
             categories = self.parser.get_categories()
-            total_items = sum(len(self.parser.get_category_items(cat)) for cat in categories)
+
+            # Count selected items
+            selected_count = sum(1 for key, var in self.checkboxes.items() if var.get())
             processed = 0
 
             for category in categories:
+                if not self.is_running:
+                    self.log("\n⚠️ Migration abgebrochen")
+                    break
+
                 items = self.parser.get_category_items(category)
                 if not isinstance(items, dict):
                     continue
 
                 for item_key, item_value in items.items():
+                    if not self.is_running:
+                        break
+
                     config_key = f"{category}.{item_key}"
 
-                    # Check if checkbox is selected
                     if config_key in self.checkboxes and self.checkboxes[config_key].get():
                         self.log(f"Anwenden: {category} -> {item_key}")
+                        self.status_label.configure(text=f"Verarbeite: {category} -> {item_key}")
 
                         success, message = self.applier.apply_configuration(category, item_value)
 
@@ -379,22 +358,24 @@ class MigrationToolGUI:
                         else:
                             self.log(f"  ✗ {message}")
 
-                    processed += 1
-                    progress = (processed / total_items) * 100
-                    self.progress_var.set(progress)
+                        processed += 1
+                        progress = processed / selected_count if selected_count > 0 else 0
+                        self.progress_bar.set(progress)
 
-            # Show summary
+            # Summary
             summary = self.applier.get_summary()
             self.log(f"\n{'='*60}")
             self.log(f"Migration abgeschlossen!")
             self.log(f"{'='*60}")
-            self.log(f"Erfolgreich angewendet: {summary['applied_count']}")
+            self.log(f"Erfolgreich: {summary['applied_count']}")
             self.log(f"Fehler: {summary['error_count']}")
 
             if summary['errors']:
                 self.log("\nFehler:")
                 for error in summary['errors']:
                     self.log(f"  - {error}")
+
+            self.status_label.configure(text="Abgeschlossen", text_color=Colors.SUCCESS)
 
             messagebox.showinfo(
                 "Abgeschlossen",
@@ -404,24 +385,66 @@ class MigrationToolGUI:
             )
 
         except Exception as e:
-            self.log(f"FEHLER: {str(e)}")
+            self.log(f"\n✗ FEHLER: {str(e)}")
+            self.status_label.configure(text="Fehler aufgetreten", text_color=Colors.ERROR)
             messagebox.showerror("Fehler", f"Fehler bei der Migration: {str(e)}")
 
         finally:
-            self.apply_btn.config(state="normal")
+            self.is_running = False
+            self.start_btn.configure(state="normal")
+            self.stop_btn.configure(state="disabled")
+
+    def stop_apply(self):
+        """Migration stoppen"""
+        self.is_running = False
+        self.stop_btn.configure(state="disabled")
+        self.status_label.configure(text="Wird gestoppt...", text_color=Colors.ERROR)
+        self.log("\n⚠️ Stopp angefordert...")
 
     def log(self, message: str):
-        """Add message to log"""
-        self.log_text.insert(tk.END, message + "\n")
-        self.log_text.see(tk.END)
-        self.root.update_idletasks()
+        """Log-Nachricht hinzufügen"""
+        self.log_box.configure(state="normal")
+        self.log_box.insert("end", message + "\n")
+        self.log_box.see("end")
+        self.log_box.configure(state="disabled")
+        self.update_idletasks()
+
+    def start_mobackup(self):
+        """MoBackup starten"""
+        mobackup_path = Path("assets/Mobackup/mobackup.exe")
+
+        if not mobackup_path.exists():
+            messagebox.showerror("Fehler", f"MoBackup nicht gefunden:\n{mobackup_path.absolute()}")
+            self.log(f"✗ MoBackup nicht gefunden: {mobackup_path}")
+            return
+
+        try:
+            self.log("🚀 Starte MoBackup...")
+            if platform.system() == 'Windows':
+                subprocess.Popen([str(mobackup_path)], shell=True)
+                self.log("✓ MoBackup gestartet")
+                messagebox.showinfo("MoBackup", "MoBackup wurde gestartet.\n\nBitte konfigurieren Sie Ihr Outlook-Backup dort.")
+            else:
+                messagebox.showwarning("Nicht unterstützt", "MoBackup ist nur unter Windows verfügbar")
+                self.log("⚠️ MoBackup nur unter Windows verfügbar")
+        except Exception as e:
+            messagebox.showerror("Fehler", f"Fehler beim Starten von MoBackup:\n{str(e)}")
+            self.log(f"✗ Fehler beim Starten von MoBackup: {str(e)}")
+
+    def quit_app(self):
+        """App beenden"""
+        if self.is_running:
+            response = messagebox.askyesno("Beenden?", "Migration läuft noch. Wirklich beenden?")
+            if not response:
+                return
+            self.is_running = False
+        self.quit()
 
 
 def main():
     """Main entry point"""
-    root = tk.Tk()
-    app = MigrationToolGUI(root)
-    root.mainloop()
+    app = ApplyGUI()
+    app.mainloop()
 
 
 if __name__ == "__main__":

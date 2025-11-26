@@ -1,6 +1,6 @@
 #!/bin/bash
 #############################################################################
-# COLLECT Configuration Migration Tool - Start Script (Linux/Mac)
+# APPLY - Start Script (Linux/Mac)
 #
 # Dieses Skript prüft alle Abhängigkeiten und startet das Tool
 #############################################################################
@@ -15,7 +15,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}═══════════════════════════════════════════════════════════${NC}"
-echo -e "${BLUE}  COLLECT Configuration Migration Tool - Startup Check    ${NC}"
+echo -e "${BLUE}  APPLY - Startup Check    ${NC}"
 echo -e "${BLUE}═══════════════════════════════════════════════════════════${NC}"
 echo ""
 
@@ -268,11 +268,11 @@ echo "  - Check the log output for errors"
 echo ""
 
 # Ask to continue
-read -p "Press ENTER to start the COLLECT Migration Tool..."
+read -p "Press ENTER to start eXpletus APPLY..."
 echo ""
 
 # Start the application
-print_status "Starting COLLECT Configuration Migration Tool..."
+print_status "Starting eXpletus APPLY..."
 print_status "Using Python command: $PYTHON_CMD"
 echo ""
 
