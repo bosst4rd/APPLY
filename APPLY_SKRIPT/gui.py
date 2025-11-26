@@ -162,14 +162,29 @@ class ApplyGUI(ctk.CTk):
             self.parser = CollectParser(file_path)
             if self.parser.load():
                 self.log("✓ Datei erfolgreich geladen")
+
+                # Check if configurations exist
+                categories = self.parser.get_categories()
+                if not categories:
+                    self.log("⚠️ Warnung: Keine Konfigurationen in der Datei gefunden")
+                    messagebox.showwarning("Warnung", "Die JSON-Datei enthält keine Konfigurationen.\n\nErwartet wird eine 'configurations' Struktur.")
+                    return
+
                 self.populate_configs()
                 self.start_btn.configure(state="normal")
             else:
                 messagebox.showerror("Fehler", "Fehler beim Laden der Datei")
                 self.log("✗ Fehler beim Laden der Datei")
+        except json.JSONDecodeError as e:
+            error_msg = f"Ungültige JSON-Datei:\n{str(e)}"
+            messagebox.showerror("JSON-Fehler", error_msg)
+            self.log(f"✗ JSON-Fehler: {str(e)}")
         except Exception as e:
-            messagebox.showerror("Fehler", f"Fehler beim Laden: {str(e)}")
+            error_msg = f"Fehler beim Laden:\n{str(e)}"
+            messagebox.showerror("Fehler", error_msg)
             self.log(f"✗ Fehler: {str(e)}")
+            import traceback
+            self.log(traceback.format_exc())
 
     def populate_configs(self):
         """Konfigurationen in der Liste anzeigen"""
