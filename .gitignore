@@ -36,6 +36,13 @@ venv.bak/
 *~
 .DS_Store
 
+# Obsidian workspace (benutzerspezifisch)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# Claude Code (temporär)
+.claude/settings.local.json
+
 # Project specific
 *.log
 test_*.json
