@@ -43,7 +43,7 @@ class ApplyGUI(ctk.CTk):
         """Erstelle GUI-Elemente"""
 
         # Header mit Logo
-        create_header(self, "eXpletus APPLY", "v2.2")
+        create_header(self, "eXpletus APPLY", "v2.3")
 
         # Main content area
         content = ctk.CTkFrame(self, fg_color="transparent")
@@ -164,12 +164,33 @@ class ApplyGUI(ctk.CTk):
                 self.log("✓ Datei erfolgreich geladen")
 
                 # Check if configurations exist
-                categories = self.parser.get_categories()
-                if not categories:
-                    self.log("⚠️ Warnung: Keine Konfigurationen in der Datei gefunden")
-                    messagebox.showwarning("Warnung", "Die JSON-Datei enthält keine Konfigurationen.\n\nErwartet wird eine 'configurations' Struktur.")
+                all_categories = self.parser.get_categories()
+
+                # Filter to only supported categories
+                supported_categories = {
+                    'hostname', 'username', 'domain', 'workgroup',
+                    'network', 'ipv4_network', 'routes', 'ipv4_routes',
+                    'network_drives', 'netzlaufwerke',
+                    'default_browser', 'default_pdf', 'default_mail', 'default_word', 'default_apps',
+                    'browser_favorites', 'browser_favoriten', 'mobackup'
+                }
+
+                filtered_categories = [cat for cat in all_categories if cat in supported_categories]
+
+                if not filtered_categories:
+                    self.log("⚠️ Warnung: Keine unterstützten Konfigurationen in der Datei gefunden")
+                    messagebox.showwarning("Warnung",
+                        "Die JSON-Datei enthält keine unterstützten Konfigurationen.\n\n"
+                        "Unterstützte Kategorien:\n"
+                        "• Hostname, Benutzername, Domäne/Arbeitsgruppe\n"
+                        "• IPv4-Netzwerk, Ständige Routen\n"
+                        "• Netzlaufwerke\n"
+                        "• Standard-Anwendungen (Browser, PDF, Mail, Word)\n"
+                        "• Browser-Favoriten\n"
+                        "• MoBackup (Outlook-Backup)")
                     return
 
+                self.log(f"✓ {len(filtered_categories)} unterstützte Konfigurationen gefunden")
                 self.populate_configs()
                 self.start_btn.configure(state="normal")
             else:
@@ -220,7 +241,7 @@ class ApplyGUI(ctk.CTk):
             row = 0
 
         # Categories mit Checkboxes
-        categories = self.parser.get_categories()
+        all_categories = self.parser.get_categories()
 
         category_info = {
             'hostname': ('🖥️', 'Hostname'),
@@ -243,8 +264,11 @@ class ApplyGUI(ctk.CTk):
             'mobackup': ('💼', 'MoBackup (Outlook-Backup)')
         }
 
+        # Filter to only supported categories
+        categories = [cat for cat in all_categories if cat in category_info]
+
         for category in categories:
-            icon, display_name = category_info.get(category, ('•', category.capitalize()))
+            icon, display_name = category_info[category]
 
             # Category header
             header = ctk.CTkLabel(self.scroll_frame, text=f"{icon} {display_name}:",

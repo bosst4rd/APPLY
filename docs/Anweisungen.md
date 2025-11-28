@@ -11,5 +11,5 @@
 - [x] Backup vor start von Änderungen einbauen, um (wiederherstellbare) Konfigurationen notfalls wiederherzustellen
 - [x] siehe Screenshot unter \screens\ die dateien lassen sich nicht laden → BEHOBEN v2.3
 - [x] ich habe dir unter \Daten JSON mal echte Exports gelegt, woran liegt es dass sich die nicht laden lassen? muss hier bei der erstellung Etwas angepasst werden Oder machen wir hier an diesem Ende einen Fehler? → FUNKTIONIERT v2.3
-- [ ] obwohl der installer vorhanden ist (\root\python installer\) wird der download per winget gestartet
-- [ ] die fehlermeldung bezüglich ist wieder da mit der JSON Struktur, dachte hast das behoben?
+- [x] obwohl der installer vorhanden ist (\root\python installer\) wird der download per winget gestartet → BEHOBEN v2.3.1
+- [x] die fehlermeldung bezüglich ist wieder da mit der JSON Struktur, dachte hast das behoben? → BEHOBEN v2.3.1 (Kategorie-Filter)

@@ -1,190 +1,68 @@
 {
   "system_info": {
-    "hostname": "old-albis-server",
-    "os": "Windows Server 2019",
-    "architecture": "x86_64",
-    "collection_date": "2025-11-15T10:30:00Z",
-    "albis_version": "ALBIS 5.2",
-    "collect_tool_version": "1.0"
+    "hostname": "BEISPIEL-PC",
+    "os": "Windows 11 Pro",
+    "collection_date": "2025-11-28T12:00:00Z",
+    "collect_tool_version": "2.6"
   },
   "configurations": {
     "hostname": {
-      "value": "old-albis-server",
-      "description": "Original hostname from source system"
+      "value": "BEISPIEL-PC",
+      "description": "Computer-Name"
     },
-    "network": {
-      "LAN": {
-        "description": "Primäre Netzwerkschnittstelle (LAN)",
-        "interface": "LAN",
-        "ip_address": "192.168.1.100",
-        "netmask": "255.255.255.0",
-        "gateway": "192.168.1.1",
-        "dns": ["192.168.1.1", "8.8.8.8"]
+    "username": {
+      "value": "MaxMustermann",
+      "description": "Benutzername"
+    },
+    "domain": {
+      "value": "WORKGROUP",
+      "description": "Arbeitsgruppe"
+    },
+    "ipv4_network": {
+      "ip_address": "192.168.1.100",
+      "gateway": "192.168.1.1",
+      "dns": ["192.168.1.1", "8.8.8.8"],
+      "description": "IPv4-Netzwerkkonfiguration"
+    },
+    "ipv4_routes": {
+      "routes": [
+        {
+          "destination": "10.0.0.0",
+          "netmask": "255.255.255.0",
+          "gateway": "192.168.1.254"
+        }
+      ],
+      "description": "Ständige IPv4-Routen"
+    },
+    "netzlaufwerke": {
+      "Z": {
+        "letter": "Z:",
+        "path": "\\\\server\\freigabe",
+        "description": "Netzlaufwerk Z:"
       },
-      "WAN": {
-        "description": "Internet-Verbindung (WAN)",
-        "interface": "WAN",
-        "ip_address": "10.0.0.50",
-        "netmask": "255.255.255.0",
-        "gateway": "10.0.0.1",
-        "dns": ["10.0.0.1"]
+      "Y": {
+        "letter": "Y:",
+        "path": "\\\\nas\\backup",
+        "description": "Netzlaufwerk Y:"
       }
     },
-    "albis_registry": {
-      "database_path": {
-        "description": "ALBIS Datenbankpfad",
-        "key": "HKEY_LOCAL_MACHINE\\SOFTWARE\\ALBIS\\Database\\Path",
-        "value": "C:\\ALBIS\\Database",
-        "type": "string"
-      },
-      "license_key": {
-        "description": "ALBIS Lizenzschlüssel",
-        "key": "HKEY_LOCAL_MACHINE\\SOFTWARE\\ALBIS\\License\\Key",
-        "value": "XXXX-XXXX-XXXX-XXXX",
-        "type": "string"
-      },
-      "server_port": {
-        "description": "ALBIS Server Port",
-        "key": "HKEY_LOCAL_MACHINE\\SOFTWARE\\ALBIS\\Server\\Port",
-        "value": "8080",
-        "type": "dword"
-      },
-      "auto_backup": {
-        "description": "Automatische Backup-Funktion",
-        "key": "HKEY_LOCAL_MACHINE\\SOFTWARE\\ALBIS\\Backup\\AutoBackup",
-        "value": "1",
-        "type": "dword"
-      },
-      "backup_path": {
-        "description": "Backup-Verzeichnis",
-        "key": "HKEY_LOCAL_MACHINE\\SOFTWARE\\ALBIS\\Backup\\Path",
-        "value": "D:\\ALBIS\\Backups",
-        "type": "string"
-      },
-      "max_connections": {
-        "description": "Maximale Anzahl gleichzeitiger Verbindungen",
-        "key": "HKEY_LOCAL_MACHINE\\SOFTWARE\\ALBIS\\Server\\MaxConnections",
-        "value": "50",
-        "type": "dword"
-      }
+    "default_apps": {
+      "browser": "Google Chrome",
+      "pdf": "Adobe Acrobat Reader",
+      "mail": "Microsoft Outlook",
+      "word": "Microsoft Word",
+      "description": "Standard-Anwendungen"
     },
-    "users": {
-      "albis_admin": {
-        "description": "ALBIS Administrator",
-        "username": "albis_admin",
-        "groups": ["Administrators", "ALBIS_Admins"],
-        "home": "C:\\Users\\albis_admin"
-      },
-      "albis_user": {
-        "description": "ALBIS Standard-Benutzer",
-        "username": "albis_user",
-        "groups": ["Users", "ALBIS_Users"],
-        "home": "C:\\Users\\albis_user"
-      },
-      "backup_service": {
-        "description": "Backup-Dienst Benutzer",
-        "username": "backup_service",
-        "groups": ["ALBIS_Backup"],
-        "home": "C:\\Users\\backup_service"
-      }
+    "browser_favoriten": {
+      "edge_base64": "",
+      "chrome_base64": "eyJmYXZvcml0ZXMiOiAiLi4uIn0=",
+      "firefox_base64": "",
+      "description": "Browser-Favoriten (Base64-kodiert)"
     },
-    "packages": {
-      "albis_components": {
-        "description": "ALBIS Komponenten",
-        "packages": [
-          "ALBIS Server 5.2",
-          "ALBIS Client 5.2",
-          "ALBIS Database Tools 5.2",
-          "ALBIS Backup Manager"
-        ]
-      },
-      "database_software": {
-        "description": "Datenbank-Software",
-        "packages": [
-          "Microsoft SQL Server 2019",
-          "SQL Server Management Studio"
-        ]
-      },
-      "system_tools": {
-        "description": "System- und Verwaltungstools",
-        "packages": [
-          "7-Zip 22.01",
-          "Notepad++ 8.5",
-          "WinRAR 6.23",
-          "PuTTY 0.78",
-          "FileZilla Client 3.66"
-        ]
-      },
-      "monitoring_tools": {
-        "description": "Überwachungs- und Diagnosetools",
-        "packages": [
-          "PRTG Network Monitor",
-          "Sysmon",
-          "Process Explorer"
-        ]
-      }
-    },
-    "services": {
-      "albis_server": {
-        "description": "ALBIS Server Hauptdienst",
-        "name": "ALBISServer",
-        "enabled": true,
-        "running": true,
-        "startup_type": "automatic"
-      },
-      "albis_backup": {
-        "description": "ALBIS Backup Dienst",
-        "name": "ALBISBackup",
-        "enabled": true,
-        "running": true,
-        "startup_type": "automatic"
-      },
-      "mssql_server": {
-        "description": "Microsoft SQL Server",
-        "name": "MSSQLSERVER",
-        "enabled": true,
-        "running": true,
-        "startup_type": "automatic"
-      },
-      "sql_agent": {
-        "description": "SQL Server Agent",
-        "name": "SQLSERVERAGENT",
-        "enabled": true,
-        "running": true,
-        "startup_type": "automatic"
-      }
-    },
-    "files": {
-      "albis_config": {
-        "description": "ALBIS Hauptkonfiguration",
-        "source": "C:\\ALBIS\\Config\\albis.ini",
-        "destination": "C:\\ALBIS\\Config\\albis.ini",
-        "size": "15 KB"
-      },
-      "database_config": {
-        "description": "Datenbank-Konfiguration",
-        "source": "C:\\ALBIS\\Config\\database.cfg",
-        "destination": "C:\\ALBIS\\Config\\database.cfg",
-        "size": "8 KB"
-      },
-      "backup_scripts": {
-        "description": "Backup-Skripte",
-        "source": "C:\\ALBIS\\Scripts\\Backup\\",
-        "destination": "C:\\ALBIS\\Scripts\\Backup\\",
-        "size": "45 KB"
-      },
-      "custom_reports": {
-        "description": "Benutzerdefinierte Reports",
-        "source": "C:\\ALBIS\\Reports\\Custom\\",
-        "destination": "C:\\ALBIS\\Reports\\Custom\\",
-        "size": "120 KB"
-      },
-      "ssl_certificates": {
-        "description": "SSL-Zertifikate",
-        "source": "C:\\ALBIS\\Certificates\\",
-        "destination": "C:\\ALBIS\\Certificates\\",
-        "size": "12 KB"
-      }
+    "mobackup": {
+      "enabled": true,
+      "outlook_installed": true,
+      "description": "MoBackup für Outlook-Sicherung"
     }
   }
 }

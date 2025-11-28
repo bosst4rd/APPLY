@@ -1,5 +1,31 @@
 # APPLY Changelog
 
+## Version 2.3.1 (2025-11-28)
+
+### 🔧 Bug-Fix: Kategorie-Filterung
+
+**Problem behoben:**
+- ✅ Alte/nicht unterstützte Kategorien werden jetzt herausgefiltert
+- ✅ Klare Fehlermeldung wenn JSON-Datei keine unterstützten Kategorien enthält
+- ✅ Verhindert Anzeige veralteter Kategorien (albis_registry, users, packages, services, files)
+
+**Änderungen:**
+- GUI (gui.py) filtert jetzt nur noch unterstützte Kategorien:
+  * Hostname, Benutzername, Domäne/Arbeitsgruppe
+  * IPv4-Netzwerk, Ständige Routen
+  * Netzlaufwerke
+  * Standard-Anwendungen (Browser, PDF, Mail, Word)
+  * Browser-Favoriten
+  * MoBackup (Outlook-Backup)
+- Neue informative Warnung mit Liste der unterstützten Kategorien
+- example_collect_data.json aktualisiert mit allen unterstützten Kategorien
+- GUI-Version auf v2.3 aktualisiert
+
+**Technische Details:**
+- `load_file()`: Filtert Kategorien vor Anzeige
+- `populate_configs()`: Zeigt nur Kategorien aus category_info Dictionary
+- Verhindert dass alte ALBIS-spezifische Kategorien angezeigt werden
+
 ## Version 2.3 (2025-11-28)
 
 ### 🔧 Kritischer Bug-Fix: JSON-Format-Unterstützung
