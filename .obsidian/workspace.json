@@ -185,6 +185,21 @@
   },
   "active": "5118739792d52062",
   "lastOpenFiles": [
+    "media/expletus_1.png",
+    "media",
+    "expletus_style.py",
+    "CHANGELOG.md",
+    "APPLY_SKRIPT/start.sh",
+    "APPLY_SKRIPT/start.bat",
+    "APPLY_SKRIPT/requirements.txt",
+    "APPLY_SKRIPT/media/expletus_1.png",
+    "APPLY_SKRIPT/media",
+    "APPLY_SKRIPT/main.py",
+    "APPLY_SKRIPT/gui.py",
+    "APPLY_SKRIPT/expletus_style.py",
+    "APPLY_SKRIPT/example_collect_data.json",
+    "APPLY_SKRIPT/README.md",
+    "APPLY_SKRIPT/CHANGELOG.md",
     "Anweisungen.md",
     "docs/Anweisungen.md",
     "docs/Liste Features JSON Export für APPLY.md",
@@ -193,15 +208,6 @@
     "QUICKSTART.md",
     "INSTALL_PYTHON.md",
     "gui_design/anleitung.md",
-    "gui_design/expletus_1.png",
-    "gui_design/Textdokument (neu).txt",
-    "gui_design/expletus_style.py",
-    "gui_design",
-    "Neuer Ordner",
-    "COLLECT_GUI_v2.2.zip",
-    "__pycache__/config_applier.cpython-311.pyc",
-    "__pycache__/collect_parser.cpython-311.pyc",
-    "__pycache__",
-    "docs"
+    "gui_design/expletus_1.png"
   ]
 }
