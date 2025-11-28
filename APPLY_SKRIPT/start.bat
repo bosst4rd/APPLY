@@ -54,7 +54,33 @@ REM ===== Python NOT found - try to install =====
 echo [WARN] Python 3 nicht gefunden!
 echo.
 
-REM Try winget installation
+REM Check for local Python installer first
+if exist "python_installer\python-3.14.0-amd64.exe" (
+    echo [INFO] Lokaler Python-Installer gefunden!
+    echo [INFO] Starte Installation von python_installer\python-3.14.0-amd64.exe...
+    echo.
+    echo WICHTIG: Waehlen Sie bei der Installation:
+    echo   - "Add Python to PATH" aktivieren
+    echo   - "Install for all users" (empfohlen)
+    echo.
+    start /wait python_installer\python-3.14.0-amd64.exe /passive PrependPath=1 Include_test=0
+    if !errorlevel! equ 0 (
+        echo.
+        echo [OK] Python wurde installiert!
+        echo.
+        echo ============================================================
+        echo   WICHTIG: Bitte dieses Fenster SCHLIESSEN und
+        echo            start.bat ERNEUT ausfuehren!
+        echo ============================================================
+        echo.
+        pause
+        exit /b 0
+    )
+    echo [WARN] Lokale Installation fehlgeschlagen.
+    echo.
+)
+
+REM Try winget installation as fallback
 where winget >nul 2>&1
 if !errorlevel! equ 0 (
     echo [INFO] Versuche Python automatisch zu installieren via winget...
