@@ -1,0 +1,177 @@
+{
+  "version": "2.6",
+  "created": "2025-11-28T18:23:25.053343",
+  "source": {
+    "tool": "eXpletus COLLECT",
+    "hostname": "PRAXIS-PC"
+  },
+  "system": {
+    "﻿datum/zeit": "2025-11-28 18:23:11",
+    "computername": "PRAXIS-PC",
+    "benutzername": "ALBIS",
+    "benutzer_domaene": "PRAXIS-PC",
+    "computer_domaene": "WORKGROUP",
+    "arbeitsgruppe": "WORKGROUP",
+    "seriennummer": "0660-0087-7389-1150-2727-7219-86",
+    "standard_browser": "Google Chrome",
+    "standard_pdf": "FirefoxPDF-308046B0AF4A39CB",
+    "standard_mail": "AppXbx2ce4vcxjdhff3d1ms66qqzk12zn827",
+    "standard_word": ""
+  },
+  "network": [
+    {
+      "name": "Ethernet",
+      "status": "Up",
+      "mac": "00-15-5D-B2-4D-02",
+      "ipv4": "172.23.19.22",
+      "gateway": "172.23.16.1",
+      "dns": "172.23.16.1",
+      "f": "-> \\\\TOPLAP\\HYPERTEMP"
+    }
+  ],
+  "printers": [
+    {
+      "name": "Microsoft Print to PDF (umgeleitet 2)",
+      "default": false,
+      "port": "TS002",
+      "treiber": "Remote Desktop Easy Print",
+      "freigabe": "Nein"
+    },
+    {
+      "name": "HPAE5798 (HP ENVY 4520 series) (umgeleitet 2)",
+      "default": false,
+      "port": "TS001",
+      "treiber": "Remote Desktop Easy Print",
+      "freigabe": "Nein"
+    },
+    {
+      "name": "TEST-STANDARD-DRUCKER",
+      "default": false,
+      "port": "LPT1:",
+      "treiber": "Generic / Text Only",
+      "freigabe": "Ja"
+    }
+  ],
+  "email": {
+    "outlook_installed": true,
+    "thunderbird_installed": false,
+    "accounts": []
+  },
+  "office": {
+    "installed": false
+  },
+  "software": {
+    "all": [
+      {
+        "name": "7-Zip 25.01 (x64)",
+        "version": "25.01",
+        "publisher": "Igor Pavlov"
+      },
+      {
+        "name": "boso profil-manager XD",
+        "version": "6.3.0.111",
+        "publisher": "BOSCH + SOHN GmbH & Co. KG"
+      },
+      {
+        "name": "CGM PRAXISARCHIV",
+        "version": "5.0.40901.21336",
+        "publisher": "CompuGroup Medical Deutschland AG"
+      },
+      {
+        "name": "CompuGROUP Java 17.0.3",
+        "version": "",
+        "publisher": ""
+      },
+      {
+        "name": "Cortrium Apex 1.24.0",
+        "version": "1.24.0",
+        "publisher": "Cortrium ApS"
+      },
+      {
+        "name": "DMP-Assist Client",
+        "version": "1.0.7",
+        "publisher": "CompuGroup Medical Deutschland AG"
+      },
+      {
+        "name": "GlucoMemory",
+        "version": "",
+        "publisher": "Beurer GmbH, Corp."
+      },
+      {
+        "name": "Google Chrome",
+        "version": "142.0.7444.163",
+        "publisher": "Google LLC"
+      },
+      {
+        "name": "Microsoft Edge",
+        "version": "142.0.3595.80",
+        "publisher": "Microsoft Corporation"
+      },
+      {
+        "name": "Microsoft Edge WebView2-Laufzeit",
+        "version": "142.0.3595.80",
+        "publisher": "Microsoft Corporation"
+      },
+      {
+        "name": "Microsoft Office Professional Edition 2003",
+        "version": "11.0.5614.0",
+        "publisher": "Microsoft Corporation"
+      },
+      {
+        "name": "Microsoft Update Health Tools",
+        "version": "3.74.0.0",
+        "publisher": "Microsoft Corporation"
+      },
+      {
+        "name": "Mozilla Firefox (x64 de)",
+        "version": "145.0",
+        "publisher": "Mozilla"
+      },
+      {
+        "name": "Mozilla Maintenance Service",
+        "version": "144.0",
+        "publisher": "Mozilla"
+      },
+      {
+        "name": "Python 3.x",
+        "version": "3.11.9150.0",
+        "publisher": "Python Software Foundation"
+      },
+      {
+        "name": "Python Launcher",
+        "version": "3.11.9150.0",
+        "publisher": "Python Software Foundation"
+      },
+      {
+        "name": "USBPneumotracDriver",
+        "version": "1.1.0",
+        "publisher": "Vitalograph"
+      },
+      {
+        "name": "Vitalograph Device Studio",
+        "version": "1.8.003",
+        "publisher": "Vitalograph"
+      },
+      {
+        "name": "WatchGuard Mobile VPN with SSL client 12.11.3",
+        "version": "12.11.3",
+        "publisher": "WatchGuard"
+      }
+    ],
+    "cgm": [],
+    "medical": [],
+    "finance": [],
+    "other": []
+  },
+  "autostart": [
+    {
+      "name": "SecurityHealth",
+      "path": "C:\\Windows\\system32\\SecurityHealthSystray.exe"
+    }
+  ],
+  "browser": {
+    "edge": false,
+    "chrome": false,
+    "firefox": true
+  }
+}

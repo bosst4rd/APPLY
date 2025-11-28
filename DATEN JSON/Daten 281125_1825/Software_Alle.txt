@@ -1,0 +1,37 @@
+﻿=== ALLE INSTALLATIONEN ===
+
+7-Zip 25.01 (x64) | 25.01 | Igor Pavlov
+boso profil-manager XD | 6.3.0.111 | BOSCH + SOHN GmbH & Co. KG
+CGM PRAXISARCHIV | 5.0.40901.21336 | CompuGroup Medical Deutschland AG
+CompuGROUP Java 17.0.3 |  | 
+Cortrium Apex 1.24.0 | 1.24.0 | Cortrium ApS
+DMP-Assist Client | 1.0.7 | CompuGroup Medical Deutschland AG
+GlucoMemory |  | Beurer GmbH, Corp.
+Google Chrome | 142.0.7444.163 | Google LLC
+Microsoft Edge | 142.0.3595.80 | Microsoft Corporation
+Microsoft Edge WebView2-Laufzeit | 142.0.3595.80 | Microsoft Corporation
+Microsoft Office Professional Edition 2003 | 11.0.5614.0 | Microsoft Corporation
+Microsoft Update Health Tools | 3.74.0.0 | Microsoft Corporation
+Microsoft Visual C++ 2015 Redistributable (x64) - 14.0.24212 | 14.0.24212.0 | Microsoft Corporation
+Microsoft Visual C++ 2015 x64 Additional Runtime - 14.0.24212 | 14.0.24212 | Microsoft Corporation
+Microsoft Visual C++ 2015 x64 Minimum Runtime - 14.0.24212 | 14.0.24212 | Microsoft Corporation
+Microsoft Visual C++ 2015-2022 Redistributable (x86) - 14.40.33810 | 14.40.33810.0 | Microsoft Corporation
+Microsoft Visual C++ 2022 X86 Additional Runtime - 14.40.33810 | 14.40.33810 | Microsoft Corporation
+Microsoft Visual C++ 2022 X86 Minimum Runtime - 14.40.33810 | 14.40.33810 | Microsoft Corporation
+Mozilla Firefox (x64 de) | 145.0 | Mozilla
+Mozilla Maintenance Service | 144.0 | Mozilla
+Python 3.11.9 (64-bit) | 3.11.9150.0 | Python Software Foundation
+Python 3.11.9 Add to Path (64-bit) | 3.11.9150.0 | Python Software Foundation
+Python 3.11.9 Core Interpreter (64-bit) | 3.11.9150.0 | Python Software Foundation
+Python 3.11.9 Development Libraries (64-bit) | 3.11.9150.0 | Python Software Foundation
+Python 3.11.9 Documentation (64-bit) | 3.11.9150.0 | Python Software Foundation
+Python 3.11.9 Executables (64-bit) | 3.11.9150.0 | Python Software Foundation
+Python 3.11.9 pip Bootstrap (64-bit) | 3.11.9150.0 | Python Software Foundation
+Python 3.11.9 Standard Library (64-bit) | 3.11.9150.0 | Python Software Foundation
+Python 3.11.9 Tcl/Tk Support (64-bit) | 3.11.9150.0 | Python Software Foundation
+Python 3.11.9 Utility Scripts (64-bit) | 3.11.9150.0 | Python Software Foundation
+Python Launcher | 3.11.9150.0 | Python Software Foundation
+Update for x64-based Windows Systems (KB5001716) | 8.94.0.0 | Microsoft Corporation
+USBPneumotracDriver | 1.1.0 | Vitalograph
+Vitalograph Device Studio | 1.8.003 | Vitalograph
+WatchGuard Mobile VPN with SSL client 12.11.3 | 12.11.3 | WatchGuard
