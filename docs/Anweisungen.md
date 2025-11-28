@@ -9,5 +9,8 @@
 - [x] unter \assets\ liegt die Software MoBackup(portabel), wenn die JSON den entsprechenden Eintrag enthält (Outlook-Backup z.B.) dann soll das Tool über die GUI gestartet werden können
 - [x] die software soll fester bestandteil von APPLY werden ist es sinnvoll diese software (mobackup) in die base zu integrieren? oder einfach nur den ordner immer mitnehmen? -> Ordner wird immer mitgenommen in APPLY_SKRIPT/assets/
 - [x] Backup vor start von Änderungen einbauen, um (wiederherstellbare) Konfigurationen notfalls wiederherzustellen 
-- [ ] siehe Screenshot unter \screens\ die dateien lassen sich nicht laden
-- [ ] ich habe dir unter \Daten JSON mal echte Exports gelegt, woran liegt es dass sich die nicht laden lassen? muss hier bei der erstellung Etwas angepasst werden Oder machen wir hier an diesem Ende einen Fehler?
+- [x] siehe Screenshot unter \screens\ die dateien lassen sich nicht laden
+- [x] ich habe dir unter \Daten JSON mal echte Exports gelegt, woran liegt es dass sich die nicht laden lassen? muss hier bei der erstellung Etwas angepasst werden Oder machen wir hier an diesem Ende einen Fehler?
+- [ ] obwohl der installer vorhanden ist (\root\python installer\) wird der download per winget gestartet
+- [ ] die fehlermeldung bezüglich ist wieder da mit der JSON Struktur, dachte hast das behoben?
+- [ ] 
