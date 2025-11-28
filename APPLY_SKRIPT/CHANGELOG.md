@@ -1,5 +1,29 @@
 # APPLY Changelog
 
+## Version 2.3 (2025-11-28)
+
+### 🔧 Kritischer Bug-Fix: JSON-Format-Unterstützung
+
+**Problem behoben:**
+- ✅ "Die JSON-Datei enthält keine Konfigurationen"-Fehler behoben
+- ✅ Unterstützung für echte COLLECT-Exports (apply_export.json)
+- ✅ Unterstützung für Migration-Format (migration.json)
+- ✅ Abwärtskompatibilität mit altem Format beibehalten
+
+**Technische Details:**
+- Parser (collect_parser.py) komplett überarbeitet
+- Automatische Format-Erkennung und Normalisierung
+- Drei unterstützte Formate:
+  1. Legacy-Format mit `configurations` Key
+  2. COLLECT-Export-Format (6.9 MB apply_export.json mit system, network, software, etc.)
+  3. Direktes Migration-Format (migration.json mit hostname, ipv4, netzlaufwerke, etc.)
+- GUI erweitert um neue Kategorie-Namen (ipv4_network, ipv4_routes, netzlaufwerke, default_apps, browser_favoriten)
+
+**Getestete Dateien:**
+- ✓ example_collect_data.json (legacy format)
+- ✓ DATEN JSON/Daten 281125_1825/migration.json (4 KB)
+- ✓ DATEN JSON/Daten 281125_1825/apply_export.json (6.9 MB)
+
 ## Version 2.2 (2025-11-26)
 
 ### ✅ Abgeschlossene Aufgaben aus anweisungen.md

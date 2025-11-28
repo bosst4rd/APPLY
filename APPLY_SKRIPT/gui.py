@@ -227,14 +227,19 @@ class ApplyGUI(ctk.CTk):
             'username': ('👤', 'Benutzername'),
             'domain': ('🏢', 'Domäne'),
             'workgroup': ('👥', 'Arbeitsgruppe'),
-            'network': ('🌐', 'Netzwerk (IPv4)'),
+            'network': ('🌐', 'Netzwerk'),
+            'ipv4_network': ('🌐', 'IPv4-Netzwerk'),
             'routes': ('🛣️', 'Ständige Routen'),
+            'ipv4_routes': ('🛣️', 'Ständige Routen IPv4'),
             'network_drives': ('💾', 'Netzlaufwerke'),
+            'netzlaufwerke': ('💾', 'Netzlaufwerke'),
             'default_browser': ('🌍', 'Standard-Browser'),
             'default_pdf': ('📄', 'Standard-PDF-Anwendung'),
             'default_mail': ('📧', 'Standard-Mailprogramm'),
             'default_word': ('📝', 'Standard für Word-Dokumente'),
+            'default_apps': ('⚙️', 'Standard-Anwendungen'),
             'browser_favorites': ('⭐', 'Browser-Favoriten'),
+            'browser_favoriten': ('⭐', 'Browser-Favoriten'),
             'mobackup': ('💼', 'MoBackup (Outlook-Backup)')
         }
 
